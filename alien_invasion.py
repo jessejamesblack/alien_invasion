@@ -3,6 +3,7 @@ from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
 from alien import Alien
+from game_stats import GameStats
 import game_functions as gf
 
 def run_game():
@@ -13,6 +14,8 @@ def run_game():
 	screen = pygame.display.set_mode((1200, 800))
 	pygame.display.set_caption("Alien Invasion")
 
+	# instance for game stats
+	stats = GameStats(ai_settings)
 	# sets background color
 	bg_color = (230, 230, 230)
 
@@ -29,13 +32,13 @@ def run_game():
 	while True:
 		# check for keyboard presses or mouse movements and redraw
 		gf.check_events(ai_settings, screen, ship, bullets)
-		ship.update()
-		gf.update_bullets(aliens, bullets)
-		gf.update_aliens(ai_settings, aliens)
-		gf.update_screen(ai_settings, screen, ship, aliens, bullets)
-		gf.create_fleet(ai_settings, screen, ship, aliens)
+		if stats.game_active:
+			ship.update()
+			gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+			gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-		
+
+		gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 		#print(len(bullets))
 
 run_game()
