@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
-class Ship():
+class Ship(Sprite):
 
 	def __init__(self, ai_settings, screen):
 		# init ship and set pos
